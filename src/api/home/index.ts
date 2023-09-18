@@ -1,10 +1,22 @@
 //首页模块接口
 import request from '@/utils/request'
-import type { HospitalResponseData } from './type'
+import type {
+  HospitalLevelAndRegionResponse,
+  HospitalResponseData,
+  HospitalSearchInfo
+} from './type'
 
-enum API {
-  HOSPITAL_URL = '/hosp/hospital/'
+//获取医院数据
+export const reqHospital = (page: number, limit: number, hostype = '', districtCode = '') => {
+  return request.get<any, HospitalResponseData>(
+    '/hosp/hospital/' + `${page}/${limit}?hostype=${hostype}&districtCode=${districtCode}`
+  )
 }
-export const reqHospital = (page: number, limit: number) => {
-  return request.get<any, HospitalResponseData>(API.HOSPITAL_URL + `${page}/${limit}`)
+//获取医院等级与地区数据
+export const reqLevelAndRegion = (dictCode: string) => {
+  return request.get<any, HospitalLevelAndRegionResponse>('/cmn/dict/findByDictCode/' + dictCode)
+}
+//搜索
+export const reqSearch = (hostname: string) => {
+  return request.get<any, HospitalSearchInfo>('/hosp/hospital/findByHosname/' + hostname)
 }

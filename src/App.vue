@@ -18,7 +18,7 @@
 }
 
 .content {
-  margin-top: 70px;
+  margin-top: 100px;
   width: 1200px;
   min-height: 700px;
 }

@@ -1,8 +1,9 @@
 import { createApp } from 'vue'
-import { createPinia } from 'pinia'
 
 import App from './App.vue'
 import router from './router'
+import pinia from '@/stores'
+
 import './assets/js/flexible.js'
 import './assets/sass/global.scss'
 import '@/assets/icon/iconfont.css'
@@ -17,12 +18,12 @@ import HospitalTop from '@/components/hospital_top/index.vue'
 import HospitalBottom from '@/components/hospital_bottom/index.vue'
 
 const app = createApp(App)
-app.use(createPinia())
-app.use(router)
 
+app.use(router)
 app.use(ElementPlus, {
   locale: zhCn
 })
+app.use(pinia)
 app.component('HospitalTop', HospitalTop)
 app.component('HospitalBottom', HospitalBottom)
 

@@ -3,13 +3,45 @@
     <div class="content">
       <div class="left">地区：</div>
       <ul>
-        <li>全部</li>
-        <li v-for="item in 30" :key="item">昌平区</li>
+        <li :class="{ active: activeFlag === '' }" @click="handleRemove">全部</li>
+        <li
+          v-for="region in regionArr"
+          :key="region.value"
+          @click="handleChnageRegion(region.value)"
+          :class="{ active: activeFlag === region.value }"
+        >
+          {{ region.name }}
+        </li>
       </ul>
     </div>
   </div>
 </template>
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import { reqLevelAndRegion } from '@/api/home'
+import type { HospitalLevelAndRegionResponse, HospitalLevelAndRegionArr } from '@/api/home/type'
+import { onMounted, ref } from 'vue'
+
+onMounted(() => {
+  getRegion()
+})
+const regionArr = ref<HospitalLevelAndRegionArr>([])
+const getRegion = async () => {
+  const res: HospitalLevelAndRegionResponse = await reqLevelAndRegion('Beijin')
+  if (res.code === 200) {
+    regionArr.value = res.data
+  }
+}
+const activeFlag = ref<string>('')
+const emit = defineEmits(['getRegion'])
+const handleChnageRegion = (region: string) => {
+  activeFlag.value = region
+  emit('getRegion', region)
+}
+const handleRemove = () => {
+  activeFlag.value = ''
+  emit('getRegion', '')
+}
+</script>
 <style lang="scss" scoped>
 .region {
   color: #666;
@@ -27,7 +59,7 @@
     li {
       margin-right: 10px;
       margin-bottom: 10px;
-      &:first-child {
+      &.active {
         color: rgb(63, 167, 223);
       }
     }

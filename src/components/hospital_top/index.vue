@@ -1,7 +1,7 @@
 <template>
   <div class="top">
     <div class="content">
-      <div class="left">
+      <div class="left" @click="$router.push('/home')">
         <img src="@/assets/images/desktop_1.jpg" alt="logo" />
         <p>尚医通 预约挂号统一平台</p>
       </div>
@@ -18,13 +18,15 @@
   position: fixed;
   z-index: 2023;
   width: 100%;
-  height: 70px;
+  height: 90px;
   display: flex;
   justify-content: center;
+  background-color: #fff;
+  border-bottom: 1px solid #ccc;
 }
 .content {
   width: 1200px;
-  height: 70px;
+  height: 90px;
   display: flex;
   justify-content: space-between;
   align-items: center;
