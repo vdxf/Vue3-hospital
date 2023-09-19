@@ -1,5 +1,18 @@
 <template>
-  <h1>查询</h1>
+  <div class="content">
+    <h1>{{ detailStore.hospitalData.hospital?.hosname }}查询取消信息</h1>
+    <el-empty description="暂无信息" />
+  </div>
 </template>
-<script lant="ts" setup></script>
-<style lang="scss" scoped></style>
+<script lang="ts" setup>
+import useDetailStore from '@/stores/modules/hospitalDetail'
+const detailStore = useDetailStore()
+</script>
+<style lang="scss" scoped>
+.content {
+  h1 {
+    text-align: center;
+    font-size: 20px;
+  }
+}
+</style>

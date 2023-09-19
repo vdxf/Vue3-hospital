@@ -8,7 +8,7 @@
     <div class="content">
       <div class="left">
         <img
-          :src="`data:image/jpeg;base64,` + detailStore.hospitalData.hospital?.logoData"
+          :src="`data:image/jpeg;base64,${detailStore.hospitalData.hospital?.logoData}`"
           alt="img"
         />
       </div>

@@ -7,6 +7,8 @@
     </div>
     <!-- 底部 -->
     <HospitalBottom></HospitalBottom>
+    <!-- 登录组件 -->
+    <Login></Login>
   </div>
 </template>
 <script lang="ts" setup></script>

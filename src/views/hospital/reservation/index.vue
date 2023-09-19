@@ -8,7 +8,7 @@
     <div class="content">
       <div class="left">
         <img
-          :src="`data:image/jpeg;base64,` + detailStore.hospitalData.hospital?.logoData"
+          :src="`data:image/jpeg;base64,${detailStore.hospitalData.hospital?.logoData}`"
           alt="img"
         />
       </div>
@@ -43,11 +43,55 @@
         </div>
       </div>
     </div>
+    <div class="deparment-box">
+      <div class="left-nav">
+        <ul>
+          <li
+            v-for="(item, index) in detailStore.departmentArr"
+            :key="index"
+            :class="{ active: index === currentIndex }"
+            @click="handleChangeIndex(index)"
+          >
+            {{ item.depname }}
+          </li>
+        </ul>
+      </div>
+      <div class="deparment-content">
+        <div
+          class="deparment-title"
+          v-for="(deparment, index) in detailStore.departmentArr"
+          :key="index"
+        >
+          <h2 class="cur">{{ deparment.depname }}</h2>
+          <ul>
+            <li v-for="item in deparment.children" :key="item.depcode" @click="handleLogin">
+              {{ item.depname }}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 <script lang="ts" setup>
 import useDetailStore from '@/stores/modules/hospitalDetail'
+import useUserStore from '@/stores/modules/user'
+import { ref } from 'vue'
+
+const currentIndex = ref<number>(0)
+const handleChangeIndex = (index: number) => {
+  currentIndex.value = index
+  const arr = document.querySelectorAll('.cur')
+  arr[index].scrollIntoView({
+    behavior: 'smooth'
+  })
+}
+
+const UserStore = useUserStore()
 const detailStore = useDetailStore()
+const handleLogin = () => {
+  UserStore.LoginShow = true
+}
 </script>
 <style lang="scss" scoped>
 .reservation {
@@ -97,5 +141,62 @@ const detailStore = useDetailStore()
 .route,
 .remove {
   margin-bottom: 10px;
+}
+.deparment-box {
+  margin-top: 20px;
+  width: 100%;
+  height: 500px;
+  display: flex;
+}
+.left-nav {
+  width: 80px;
+  height: 100%;
+  ul {
+    width: 100%;
+    height: 100%;
+    background-color: #f1f1f1;
+    display: flex;
+    flex-direction: column;
+    li {
+      flex: 1;
+      color: #666;
+      line-height: 40px;
+      text-align: center;
+      cursor: pointer;
+      &.active {
+        border-left: 1px solid red;
+        background-color: #fff;
+        color: red;
+      }
+    }
+  }
+}
+.deparment-content {
+  flex: 1;
+  margin-left: 30px;
+  height: 100%;
+  overflow: auto;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  .deparment-title {
+    h2 {
+      background-color: #f1f1f1;
+      color: #666;
+    }
+    ul {
+      display: flex;
+      flex-wrap: wrap;
+      li {
+        width: 33%;
+        color: #666;
+        line-height: 30px;
+        cursor: pointer;
+        &:hover {
+          color: #4fadeb;
+        }
+      }
+    }
+  }
 }
 </style>

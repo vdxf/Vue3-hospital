@@ -7,16 +7,48 @@
       </div>
       <div class="right">
         <div class="help">帮助中心</div>
-        <div class="login">登录 / 注册</div>
+        <div class="login" @click="handleLogin" v-if="!UserStore.userInfo.token">登录 / 注册</div>
+        <div class="userInfo" v-else>
+          <el-dropdown>
+            <span class="el-dropdown-link">
+              {{ UserStore.userInfo.name }}
+              <el-icon class="el-icon--right">
+                <arrow-down />
+              </el-icon>
+            </span>
+            <template #dropdown>
+              <el-dropdown-menu>
+                <el-dropdown-item>实名认证</el-dropdown-item>
+                <el-dropdown-item>挂号订单</el-dropdown-item>
+                <el-dropdown-item>就诊人管理</el-dropdown-item>
+                <el-dropdown-item @click="handleLogout">退出登录</el-dropdown-item>
+              </el-dropdown-menu>
+            </template>
+          </el-dropdown>
+        </div>
       </div>
     </div>
   </div>
 </template>
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import { ArrowDown } from '@element-plus/icons-vue'
+import useUserStore from '@/stores/modules/user'
+import router from '@/router'
+const UserStore = useUserStore()
+//登录
+const handleLogin = () => {
+  UserStore.LoginShow = true
+}
+//退出登录
+const handleLogout = () => {
+  UserStore.logout()
+  router.replace('/home')
+}
+</script>
 <style scoped lang="scss">
 .top {
   position: fixed;
-  z-index: 2023;
+  z-index: 2;
   width: 100%;
   height: 90px;
   display: flex;
@@ -54,6 +86,13 @@
   color: #aaa;
   .help {
     margin-right: 10px;
+  }
+}
+.login,
+.userInfo {
+  cursor: pointer;
+  &:hover {
+    color: #4fadeb;
   }
 }
 </style>
