@@ -44,6 +44,11 @@
               </div>
               <div class="wx-login" v-else>
                 <p>微信登录</p>
+                <img src="@/assets/images/desktop_2.jpg" alt="" />
+                <div class="button" @click="wechat = !wechat">
+                  <i class="iconfont">&#xe671;</i>
+                  <span>手机验证码登录</span>
+                </div>
               </div>
             </div>
           </el-col>
@@ -163,6 +168,7 @@ const rules = {
   padding: 20px;
 }
 .button {
+  cursor: pointer;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -208,6 +214,23 @@ const rules = {
     margin: 10px 0;
     font-size: 20px;
     color: #ccc;
+  }
+}
+.wx-login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  img {
+    width: 200px;
+    height: 200px;
+    margin: 10px 0;
+  }
+  .button {
+    i {
+      font-size: 20px;
+      color: #efa2a2;
+      margin-top: 10px;
+    }
   }
 }
 </style>

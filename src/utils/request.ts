@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { ElMessage } from 'element-plus'
+import useUserStore from '@/stores/modules/user'
 const request = axios.create({
   baseURL: '/api',
   timeout: 10000
@@ -9,6 +10,11 @@ request.interceptors.request.use(
   (config) => {
     //config: 请求拦截器回调注入的对象(配置对象)
     //可以通过请求头携带公共参数-token
+    const UserStore = useUserStore()
+    if (UserStore.userInfo.token) {
+      config.headers.token = UserStore.userInfo.token
+    }
+
     console.log(config, '请求参数 => ')
     return config
   },

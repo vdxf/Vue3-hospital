@@ -33,8 +33,9 @@
 <script lang="ts" setup>
 import { ArrowDown } from '@element-plus/icons-vue'
 import useUserStore from '@/stores/modules/user'
-import router from '@/router'
 const UserStore = useUserStore()
+import router from '@/router'
+
 //登录
 const handleLogin = () => {
   UserStore.LoginShow = true

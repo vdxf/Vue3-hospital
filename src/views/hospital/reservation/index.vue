@@ -64,7 +64,7 @@
         >
           <h2 class="cur">{{ deparment.depname }}</h2>
           <ul>
-            <li v-for="item in deparment.children" :key="item.depcode" @click="handleLogin">
+            <li v-for="item in deparment.children" :key="item.depcode" @click="handleLogin(item)">
               {{ item.depname }}
             </li>
           </ul>
@@ -76,8 +76,10 @@
 <script lang="ts" setup>
 import useDetailStore from '@/stores/modules/hospitalDetail'
 import useUserStore from '@/stores/modules/user'
+import { useRoute, useRouter } from 'vue-router'
 import { ref } from 'vue'
-
+const route = useRoute()
+const router = useRouter()
 const currentIndex = ref<number>(0)
 const handleChangeIndex = (index: number) => {
   currentIndex.value = index
@@ -89,8 +91,15 @@ const handleChangeIndex = (index: number) => {
 
 const UserStore = useUserStore()
 const detailStore = useDetailStore()
-const handleLogin = () => {
-  UserStore.LoginShow = true
+const handleLogin = (item: any) => {
+  // UserStore.LoginShow = true
+  router.push({
+    path: '/hospital/register',
+    query: {
+      hoscode: route.query.hoscode,
+      depcode: item.depcode
+    }
+  })
 }
 </script>
 <style lang="scss" scoped>

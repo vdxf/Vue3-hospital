@@ -34,6 +34,14 @@ const router = createRouter({
         {
           path: 'search',
           component: () => import('@/views/hospital/search/index.vue')
+        },
+        {
+          path: 'register',
+          component: () => import('@/views/hospital/reservation/RegisterView.vue')
+        },
+        {
+          path: 'visitor',
+          component: () => import('@/views/hospital/reservation/VisitorInfo.vue')
         }
       ]
     }
