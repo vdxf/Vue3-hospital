@@ -42,6 +42,49 @@ const router = createRouter({
         {
           path: 'visitor',
           component: () => import('@/views/hospital/reservation/VisitorInfo.vue')
+        },
+        {
+          path: 'addvisitor',
+          component: () => import('@/views/hospital/reservation/AddVisitor.vue')
+        }
+      ]
+    },
+    {
+      path: '/user',
+      component: () => import('@/views/user/index.vue'),
+      redirect: '/user/certification',
+      children: [
+        {
+          path: 'certification',
+          component: () => import('@/views/user/certification/index.vue')
+        },
+        {
+          path: 'order',
+          component: () => import('@/views/user/order/index.vue')
+        },
+        {
+          path: 'infomation',
+          component: () => import('@/views/user/infomation/index.vue')
+        },
+        {
+          path: 'account',
+          component: () => import('@/views/user/account/index.vue')
+        },
+        {
+          path: 'feedback',
+          component: () => import('@/views/user/feedback/index.vue')
+        },
+        {
+          path: 'register',
+          component: () => import('@/views/hospital/reservation/RegisterView.vue')
+        },
+        {
+          path: 'visitor',
+          component: () => import('@/views/hospital/reservation/VisitorInfo.vue')
+        },
+        {
+          path: 'addvisitor',
+          component: () => import('@/views/hospital/reservation/AddVisitor.vue')
         }
       ]
     }

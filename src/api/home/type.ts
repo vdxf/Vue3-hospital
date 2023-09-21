@@ -1,7 +1,7 @@
 //定义首页模块ts类型
 export interface ResponseData {
   code: number
-  messsage: string
+  message: string
   ok: boolean
 }
 //已有的医院数据的ts类型

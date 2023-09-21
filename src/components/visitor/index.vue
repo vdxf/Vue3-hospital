@@ -20,12 +20,15 @@
         <li>当前住址：{{ visitor.param.cityString }}</li>
         <li>详细地址：{{ visitor.param.fullAddress }}</li>
       </ul>
+      <transition name="checked">
+        <div class="checked" v-if="index === currentIndex">已选择</div>
+      </transition>
     </div>
   </div>
 </template>
 <script lang="ts" setup>
 import { Edit } from '@element-plus/icons-vue'
-defineProps(['visitor'])
+defineProps(['visitor', 'index', 'currentIndex'])
 </script>
 <style lang="scss" scoped>
 .visitor {
@@ -61,6 +64,7 @@ defineProps(['visitor'])
 .bottom {
   display: flex;
   flex-direction: column;
+  position: relative;
   ul {
     padding: 10px 0 20px 20px;
     li {
@@ -69,5 +73,27 @@ defineProps(['visitor'])
       line-height: 20px;
     }
   }
+}
+.checked {
+  position: absolute;
+  left: 20%;
+  top: 20%;
+  width: 200px;
+  height: 200px;
+  color: red;
+  border: 1px dashed red;
+  border-radius: 50%;
+  opacity: 0.5;
+  transform: rotate(40deg);
+  font-weight: 600;
+}
+.checked-enter-from {
+  transform: scale(1);
+}
+.checked-enter-active {
+  transition: all 0.5;
+}
+.checked-enter-to {
+  transform: scale(1.2);
 }
 </style>

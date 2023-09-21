@@ -1,6 +1,6 @@
 export interface ResponseData {
   code: number
-  messsage: string
+  message: string
   ok: boolean
 }
 export interface HospitalDetail {

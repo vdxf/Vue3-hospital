@@ -18,9 +18,13 @@
             </span>
             <template #dropdown>
               <el-dropdown-menu>
-                <el-dropdown-item>实名认证</el-dropdown-item>
-                <el-dropdown-item>挂号订单</el-dropdown-item>
-                <el-dropdown-item>就诊人管理</el-dropdown-item>
+                <el-dropdown-item @click="$router.push('/user/certification')"
+                  >实名认证</el-dropdown-item
+                >
+                <el-dropdown-item @click="$router.push('/user/order')">挂号订单</el-dropdown-item>
+                <el-dropdown-item @click="$router.push('/user/infomation')"
+                  >就诊人管理</el-dropdown-item
+                >
                 <el-dropdown-item @click="handleLogout">退出登录</el-dropdown-item>
               </el-dropdown-menu>
             </template>

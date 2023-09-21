@@ -6,7 +6,7 @@
         <template #header>
           <div class="card-header">
             <span>请选择就诊人</span>
-            <el-button type="primary" size="default">
+            <el-button type="primary" size="default" @click="handleAddVisitor">
               <i class="iconfont">&#xe655;</i>
               添加就诊人
             </el-button>
@@ -15,9 +15,12 @@
         <div class="user-info">
           <VISITOR
             class="user-item"
-            v-for="visitor in visitorList"
+            v-for="(visitor, index) in visitorList"
             :key="visitor.id"
             :visitor="visitor"
+            @click="hnadleChangeIndex(index)"
+            :index="index"
+            :currentIndex="currentIndex"
           ></VISITOR>
         </div>
       </el-card>
@@ -76,17 +79,28 @@
       </el-card>
     </div>
     <div class="footer-button">
-      <button>确认挂号</button>
+      <el-button
+        type="primary"
+        size="default"
+        :disabled="currentIndex === -1 ? true : false"
+        @click="handleSubmitorder"
+      >
+        确认挂号
+      </el-button>
     </div>
   </div>
 </template>
 <script lang="ts" setup>
 import VISITOR from '@/components/visitor/index.vue'
 import { reqVisitorData, reqDoctorData } from '@/api/hospital'
+import { reqOrder } from '@/api/user'
 import type { VisitorResponse, RegisterDoctor } from '@/api/hospital/type'
+import type { SubmitOrder } from '@/api/user/type'
 import { ref, onMounted } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
+import { ElMessage } from 'element-plus'
 const route = useRoute()
+const router = useRouter()
 onMounted(() => {
   reqVisitorList()
   reqDoctorInfo()
@@ -102,6 +116,36 @@ const doctorInfo = ref<any>({})
 const reqDoctorInfo = async () => {
   const res: RegisterDoctor = await reqDoctorData(route.query.doctorId as string)
   doctorInfo.value = res.data
+}
+//添加就诊人
+const handleAddVisitor = () => {
+  router.push('/hospital/addvisitor')
+}
+//点击选择就诊人
+const currentIndex = ref<number>(-1)
+const hnadleChangeIndex = (index: number) => {
+  currentIndex.value = index
+}
+//确定挂号
+const handleSubmitorder = async () => {
+  const res: SubmitOrder = await reqOrder(
+    doctorInfo.value.hoscode,
+    doctorInfo.value.id,
+    visitorList.value[currentIndex.value].id
+  )
+  if (res.code === 200) {
+    router.push({
+      path: '/user/order',
+      query: {
+        orderId: res.data
+      }
+    })
+  } else {
+    ElMessage({
+      type: 'error',
+      message: res.message
+    })
+  }
 }
 </script>
 <style lang="scss" scoped>
@@ -141,14 +185,8 @@ const reqDoctorInfo = async () => {
   justify-content: center;
   align-items: center;
   button {
-    border-radius: 10px;
-    width: 100px;
-    height: 40px;
-    color: #fff;
-    background-color: rgb(114, 197, 241);
-    &:hover {
-      background-color: rgb(37, 148, 208);
-    }
+    border-radius: 6px;
+    background-color: rgb(5, 156, 237);
   }
 }
 </style>
