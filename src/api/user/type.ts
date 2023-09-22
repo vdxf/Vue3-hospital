@@ -185,3 +185,21 @@ export type AllOrderStatus = OrderStatus[]
 export interface AllOrderStatusResponse extends ResponseData {
   data: AllOrderStatus
 }
+//新增与修改就诊人
+export interface AddOrUpdate {
+  id?: number
+  name: string
+  certificatesType: string
+  certificatesNo: string
+  sex: number
+  birthdate: string
+  phone: string
+  isMarry: number
+  isInsure: number
+  addressSelected: string[]
+  address: string
+  contactsName: string
+  contactCertificatesType: string
+  contactCertificatesNo: string
+  contactsPhone: string
+}

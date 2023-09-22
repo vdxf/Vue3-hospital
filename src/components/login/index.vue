@@ -85,6 +85,9 @@ import useUserStore from '@/stores/modules/user'
 import { User, Lock } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
 import { ref, reactive, computed } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
+const route = useRoute()
+const router = useRouter()
 const form = ref<any>()
 const UserStore = useUserStore()
 const wechat = ref<boolean>(true)
@@ -118,6 +121,12 @@ const handleLogin = async () => {
   try {
     await UserStore.getLogin(loginForm)
     UserStore.LoginShow = false
+    const redirect = route.query.redirect
+    if (redirect) {
+      router.push(redirect as string)
+    } else {
+      router.push('/home')
+    }
   } catch (err) {
     ElMessage({
       type: 'error',

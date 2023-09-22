@@ -18,7 +18,7 @@
             v-for="(visitor, index) in visitorList"
             :key="visitor.id"
             :visitor="visitor"
-            @click="hnadleChangeIndex(index)"
+            @click="handleChangeIndex(index)"
             :index="index"
             :currentIndex="currentIndex"
           ></VISITOR>
@@ -119,11 +119,17 @@ const reqDoctorInfo = async () => {
 }
 //添加就诊人
 const handleAddVisitor = () => {
-  router.push('/hospital/addvisitor')
+  router.push({
+    path: '/user/infomation',
+    query: {
+      type: 'add'
+    }
+  })
+  reqVisitorList()
 }
 //点击选择就诊人
 const currentIndex = ref<number>(-1)
-const hnadleChangeIndex = (index: number) => {
+const handleChangeIndex = (index: number) => {
   currentIndex.value = index
 }
 //确定挂号

@@ -6,7 +6,28 @@
         <span>{{ visitor.name }}</span>
       </div>
       <div class="right">
-        <el-button circle type="primary" size="default" :icon="Edit"></el-button>
+        <el-button
+          circle
+          type="primary"
+          size="default"
+          :icon="Edit"
+          @click.stop="handleUpdata"
+        ></el-button>
+        <el-popconfirm
+          :title="`你确认要删除${visitor.name}吗？`"
+          width="250px"
+          @confirm="handleDelete"
+        >
+          <template #reference>
+            <el-button
+              circle
+              type="danger"
+              size="default"
+              :icon="Delete"
+              v-if="$route.path === '/user/infomation'"
+            ></el-button>
+          </template>
+        </el-popconfirm>
       </div>
     </div>
     <div class="bottom">
@@ -20,15 +41,51 @@
         <li>当前住址：{{ visitor.param.cityString }}</li>
         <li>详细地址：{{ visitor.param.fullAddress }}</li>
       </ul>
-      <transition name="checked">
+      <transition name="checked" v-if="$route.path !== '/user/infomation'">
         <div class="checked" v-if="index === currentIndex">已选择</div>
       </transition>
     </div>
   </div>
 </template>
 <script lang="ts" setup>
-import { Edit } from '@element-plus/icons-vue'
-defineProps(['visitor', 'index', 'currentIndex'])
+import { reqDelete } from '@/api/user'
+import { Edit, Delete } from '@element-plus/icons-vue'
+import { ElMessage } from 'element-plus'
+import { useRoute, useRouter } from 'vue-router'
+const route = useRoute()
+const router = useRouter()
+const props = defineProps(['visitor', 'index', 'currentIndex'])
+const emit = defineEmits(['changeScene', 'remove'])
+//更新就诊人数据
+const handleUpdata = () => {
+  if (route.path === '/user/infomation') {
+    emit('changeScene', props.visitor)
+  } else {
+    router.push({
+      path: '/user/infomation',
+      query: {
+        type: 'edit',
+        id: props.visitor.id
+      }
+    })
+  }
+}
+//删除
+const handleDelete = async () => {
+  try {
+    await reqDelete(props.visitor.id)
+    ElMessage({
+      type: 'success',
+      message: '删除成功'
+    })
+    emit('remove')
+  } catch (err) {
+    ElMessage({
+      type: 'error',
+      message: '删除失败'
+    })
+  }
+}
 </script>
 <style lang="scss" scoped>
 .visitor {
@@ -76,16 +133,19 @@ defineProps(['visitor', 'index', 'currentIndex'])
 }
 .checked {
   position: absolute;
-  left: 20%;
-  top: 20%;
+  left: 15%;
+  top: 15%;
   width: 200px;
   height: 200px;
   color: red;
-  border: 1px dashed red;
+  border: 2px dashed red;
   border-radius: 50%;
-  opacity: 0.5;
+  opacity: 0.2;
   transform: rotate(40deg);
-  font-weight: 600;
+  font-size: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .checked-enter-from {
   transform: scale(1);

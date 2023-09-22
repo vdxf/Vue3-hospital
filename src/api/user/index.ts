@@ -9,7 +9,8 @@ import type {
   Authentication,
   OrderListResponse,
   AllVisitorResponse,
-  AllOrderStatusResponse
+  AllOrderStatusResponse,
+  AddOrUpdate
 } from './type'
 
 //创建订单
@@ -64,4 +65,20 @@ export const reqAllVisitor = () => {
 //获取全部订单状态
 export const reqOrderState = () => {
   return request.get<any, AllOrderStatusResponse>('/order/orderInfo/auth/getStatusList')
+}
+//获取城市数据
+export const reqCity = (parentId: string) => {
+  return request.get<any, AllOrderStatusResponse>('/cmn/dict/findByParentId/' + `${parentId}`)
+}
+//新增更新就诊人
+export const reqAddOrUpdateVisitor = (data: AddOrUpdate) => {
+  if (data.id) {
+    return request.put<any, any>('/user/patient/auth/update', data)
+  } else {
+    return request.post<any, any>('/user/patient/auth/save', data)
+  }
+}
+//删除
+export const reqDelete = (id: string) => {
+  return request.delete<any, any>('/user/patient/auth/remove/' + `${id}`)
 }
