@@ -3,7 +3,7 @@
     <div class="content">
       <div class="left" @click="$router.push('/home')">
         <img src="@/assets/images/desktop_1.jpg" alt="logo" />
-        <p>尚医通 预约挂号统一平台</p>
+        <p>预约挂号统一平台</p>
       </div>
       <div class="right">
         <div class="help">帮助中心</div>
